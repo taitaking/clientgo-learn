@@ -20,6 +20,10 @@ func GetKubeClient(ctx context.Context, cfgpath string) (*kubernetes.Clientset, 
 		fmt.Errorf("BuildConfigFromFlags kube clientset faild")
 		panic(err)
 	}
+	//默认为5
+	kubeconfig.QPS = 100
+	//默认为10
+	kubeconfig.Burst = 100
 	//生成clientset
 	clientset, err := kubernetes.NewForConfig(kubeconfig)
 	if err != nil {
