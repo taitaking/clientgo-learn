@@ -28,7 +28,7 @@ func main() {
 	}
 	//client.CoreV1().Pods(namespace).List(context.TODO(), options)
 	pod, err := kc.PodLister.Pods("default").
-		Get("tomcat-d9c7df887-gqn8q")
+		Get("tomcat-d9c7df887-lml26")
 	if err != nil {
 		//log.Error(err, "get pods err")
 		fmt.Errorf("get pods err")
@@ -39,4 +39,12 @@ func main() {
 	//log.Info("the pod hostname is: %s", pod.Spec.NodeName)
 	container, err := json.Marshal(pod.Spec.Containers[0])
 	fmt.Println("the pod hostname is: %s", string(container))
+
+	//测试删除
+	//pkc := &kubeclient.PodKubeController{kc}
+	//err = pkc.Delete("default", "tomcat-d9c7df887-vl6sp")
+	//if err != nil {
+	//	fmt.Println("delete pod failed ：%s", err.Error())
+	//}
+
 }

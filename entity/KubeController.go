@@ -23,9 +23,9 @@ type KubeController struct {
 	Factory    informers.SharedInformerFactory
 
 	//定义Deployment资源对象的Informer、Lister以及HasSynce
-	deploymentInformer appsinformers.DeploymentInformer
-	deploymentLister   appslisters.DeploymentLister
-	deploymentSynced   cache.InformerSynced
+	DeploymentInformer appsinformers.DeploymentInformer
+	DeploymentLister   appslisters.DeploymentLister
+	DeploymentSynced   cache.InformerSynced
 
 	//定义Pod资源对象的Informer、Lister以及HashSynce
 	PodInformer coreinformers.PodInformer
@@ -49,9 +49,9 @@ func NewKubeController(kubeConfig *rest.Config,
 	kc.Factory = informers.NewSharedInformerFactory(clientset, defaultResync)
 	//生成Deployment、Pod、Service等资源对象的Informer、Lister以及HasSysnced
 
-	kc.deploymentInformer = kc.Factory.Apps().V1().Deployments()
-	kc.deploymentLister = kc.deploymentInformer.Lister()
-	kc.deploymentSynced = kc.deploymentInformer.Informer().HasSynced
+	kc.DeploymentInformer = kc.Factory.Apps().V1().Deployments()
+	kc.DeploymentLister = kc.DeploymentInformer.Lister()
+	kc.DeploymentSynced = kc.DeploymentInformer.Informer().HasSynced
 
 	kc.PodInformer = kc.Factory.Core().V1().Pods()
 	kc.PodLister = kc.PodInformer.Lister()
@@ -64,6 +64,10 @@ func NewKubeController(kubeConfig *rest.Config,
 	return kc
 
 }
+
+/**
+  进行集群的连接和客户端生成
+*/
 func (kc *KubeController) Run(stopPodch chan struct{}) {
 	//log := logr.Logger{}
 	//defer close(stopPodCh)'
@@ -75,7 +79,7 @@ func (kc *KubeController) Run(stopPodch chan struct{}) {
 	kc.Factory.Start(stopPodch)
 
 	//等待资源查询(List)完成后同步到缓存
-	if !cache.WaitForCacheSync(stopPodch, kc.deploymentSynced, kc.PodSynced, kc.ServiceSynced) {
+	if !cache.WaitForCacheSync(stopPodch, kc.DeploymentSynced, kc.PodSynced, kc.ServiceSynced) {
 		utilruntime.HandleError(fmt.Errorf("timed out waiting for kuberesource caches to sync"))
 		return
 	}
