@@ -1,0 +1,9 @@
+apiVersion: kube.zxl.com/v1
+kind: BlogPost
+metadata:
+  name: blogpost-1
+spec:
+  title: "学亮编程手记title部分"
+  url: "https://www.zxl.com"
+  publishdate: "2021-03-02 16:28"
+  body: "学亮编程手记body部分"

@@ -1,0 +1,32 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  # metadata.name的内容由"复数名.分组名"构成，canaries是复数名，
+  # canarycontroller.tech.com是分组名￼
+  name: canaries.canarycontroller.tech.com
+  annotations:
+    "api-approved.kubernetes.io": "https://github.com/kubernetes/kubernetes/pull/78458"
+spec:
+  # 分组名，在REST API中也会用到，格式是/apis/分组名/CRD版本
+  ￼ group: canarycontroller.tech.com
+    # list of versions supported by this CustomResourceDefinition
+    versions:
+    - name: v1alpha1
+      # 是否有效的开关￼
+      served: true
+      # 只有一个版本能被标注为storage￼
+      storage: true
+    # 范围是属于命名空间的￼
+    scope: Namespaced￼
+    names:
+      # 复数名
+      plural: canaries￼
+      # 单数名￼
+      singular: canary
+      # 类型名￼
+      kind: Canary
+      # 简称￼
+      shortNames:
+      - can￼
+    subresources:
+      status: {}
